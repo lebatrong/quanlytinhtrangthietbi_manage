@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChinhSuaThietBiKhacActivity">
+
+    <android.support.v7.widget.Toolbar
+        app:title="@string/chinhsuathietbikhac"
+        android:id="@+id/toolbarchinhsuathietbikhac"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark">
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TableLayout
+            android:orientation="vertical"
+            android:showDividers="middle"
+            android:dividerPadding="5dp"
+            android:divider="#000"
+            android:stretchColumns="*"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--TITLE-->
+            <TableRow
+                android:padding="5dp"
+                android:background="@color/colortitletable">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textSize="18dp"
+                    android:textColor="#000"
+                    android:text="@string/thietbi"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:textColor="@color/colortong"
+                    android:text="Tổng"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="@string/them"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorhu"
+                    android:text="@string/giam"/>
+
+            </TableRow>
+
+            <!--BÀN-->
+            <TableRow
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:background="@color/colorRow1"
+                >
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="@string/ban"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvtongban_edit"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colortong"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <!--BÌNH THƯỜNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvthemban_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--HƯ-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvgiamban_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorhu"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <!--GHẾ-->
+            <TableRow
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:background="@color/colorRow2"
+                >
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="@string/ghe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--TỔNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvtongghe_edit"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colortong"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+
+                <!--BÌNH THƯỜNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvthemghe_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <!--LỖI-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvgiamghe_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorhu"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <!--ĐIỀU HÒA-->
+            <TableRow
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:background="@color/colorRow1"
+                >
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="@string/dieuhoa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--TỔNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvtongdieuhoa_edit"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colortong"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+
+
+                <!--BÌNH THƯỜNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvthemdieuhoa_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <!--HƯ-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvgiamdieuhoa_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorhu"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <!--MODEM WIFI-->
+            <TableRow
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:background="@color/colorRow2"
+                >
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="@string/modemwifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--TỔNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvtongmodemwifi_edit"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colortong"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+
+                <!--BÌNH THƯỜNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvthemmodemwifi_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--giam-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvgiammodemwifi_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorhu"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </TableRow>
+
+            <!--QUẠT-->
+            <TableRow
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:background="@color/colorRow1"
+                >
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="@string/quat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--TỔNG-->
+                <TextView
+                    android:id="@+id/tvtongquat_edit"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colortong"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+
+                <!--BÌNH THƯỜNG-->
+                <TextView
+                    android:id="@+id/tvthemquat_edit"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--giam-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvgiamquat_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorhu"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </TableRow>
+
+            <!--SWITCH MẠNG-->
+            <TableRow
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:background="@color/colorRow2"
+                >
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="@string/switchmang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--TỔNG-->
+                <TextView
+                    android:id="@+id/tvtongswitchmang_edit"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colortong"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+
+                <!--BÌNH THƯỜNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvthemswitchmang_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <!--giam-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvgiamswitchmang_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorhu"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <!--TIVI-->
+            <TableRow
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:background="@color/colorRow1"
+                >
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="@string/tivi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--TỔNG-->
+                <TextView
+                    android:id="@+id/tvtongtivi_edit"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colortong"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+
+
+                <!--BÌNH THƯỜNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvthemtivi_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <!--giam-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvgiamtivi_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorhu"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <!--ĐÈN-->
+            <TableRow
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:background="@color/colorRow2"
+                >
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textSize="17dp"
+                    android:textColor="#000"
+                    android:text="@string/den"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--TỔNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvtongden_edit"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/colortong"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+
+                <!--BÌNH THƯỜNG-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvthemden_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorbinhthuong"
+                    android:text="+"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <!--giam-->
+                <TextView
+                    android:gravity="center"
+                    android:id="@+id/tvgiamden_edit"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="@color/colorhu"
+                    android:text="-"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/btncapnhat_edit"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/capnhat"
+            android:textColor="#fff"
+            android:background="@drawable/custom_button_baocaothietbikhac"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>
