@@ -17,6 +17,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kongzue.dialog.v2.WaitDialog;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -28,7 +30,6 @@ import lbt.com.manager.Models.Firebase.objNguoiDung;
 import lbt.com.manager.Models.Firebase.objPhongMay;
 import lbt.com.manager.Presenter.iTaiKhoan;
 import lbt.com.manager.Presenter.lTaiKhoan;
-import lbt.com.manager.utils.CustomDialogLoading;
 
 public class TaiKhoanActivity extends AppCompatActivity implements iTaiKhoan {
 
@@ -42,7 +43,6 @@ public class TaiKhoanActivity extends AppCompatActivity implements iTaiKhoan {
     private int REQUEST_CODE_IMAGE = 1;
     private boolean isTaiHinh;
     lTaiKhoan mTaiKhoan;
-    CustomDialogLoading mDialogLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class TaiKhoanActivity extends AppCompatActivity implements iTaiKhoan {
         btnCapNhatThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialogLoading.showDialog(getText(R.string.dangcapnhatthongtin).toString());
+                WaitDialog.show(TaiKhoanActivity.this,getText(R.string.dangcapnhatthongtin).toString());
                 objNguoiDung mNguoiDung = mTaiKhoan.getDataUser();
                 try {
                     String ht = tilHoTen.getEditText().getText().toString();
@@ -140,7 +140,7 @@ public class TaiKhoanActivity extends AppCompatActivity implements iTaiKhoan {
         this.rdoNu = findViewById(R.id.rdonu);
         this.crlhinhnen = findViewById(R.id.crlhinhnen);
 
-        mDialogLoading = new CustomDialogLoading(this);
+
 
         mTaiKhoan = new lTaiKhoan(this,this);
 
@@ -181,7 +181,7 @@ public class TaiKhoanActivity extends AppCompatActivity implements iTaiKhoan {
 
     @Override
     public void capnhatthongtin(boolean isSuccess) {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         if(isSuccess)
             Toast.makeText(this, getText(R.string.capnhatthongtinthanhcong), Toast.LENGTH_SHORT).show();
         else

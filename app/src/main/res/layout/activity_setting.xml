@@ -13,7 +13,8 @@
         app:title="@string/caidat"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark">
+        android:background="@drawable/background_toolbar"
+        app:titleTextColor="@color/colorWhite">
 
     </android.support.v7.widget.Toolbar>
 

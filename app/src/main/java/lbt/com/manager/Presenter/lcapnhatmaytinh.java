@@ -20,6 +20,7 @@ import java.util.List;
 import lbt.com.manager.Models.App.objthietbimaytinh_app;
 import lbt.com.manager.Models.Firebase.objNguoiDung;
 import lbt.com.manager.Models.Firebase.objlichsucapnhatmaytinh;
+import lbt.com.manager.Models.Firebase.objmaytinhs;
 
 public class lcapnhatmaytinh {
 
@@ -27,15 +28,16 @@ public class lcapnhatmaytinh {
     static final String TAG = "lcapnhatmaytinh";
     FirebaseDatabase mDatabase;
 
-    String mm = "";
-    List<String> mamay;
+
+    List<objmaytinhs> mamay;
 
     public lcapnhatmaytinh(icapnhatmaytinh mInterface) {
         this.mInterface = mInterface;
         mDatabase = FirebaseDatabase.getInstance();
+
     }
 
-    public void getListMayTinh( String maphong){
+    public void getListMayTinh(final String maphong){
         final DatabaseReference mRef = mDatabase.getReference()
                 .child("thietbis")
                 .child(maphong)
@@ -45,9 +47,13 @@ public class lcapnhatmaytinh {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    GenericTypeIndicator<List<String>> gen = new GenericTypeIndicator<List<String>>(){};
-                    List<String> listmay = dataSnapshot.getValue(gen);
-
+                    GenericTypeIndicator<List<objmaytinhs>> gen = new GenericTypeIndicator<List<objmaytinhs>>(){};
+                    List<objmaytinhs> listmay = new ArrayList<>();
+                    //Kiểm tra máy nào consudung mới add vào list
+                    for(objmaytinhs maytinh :  dataSnapshot.getValue(gen)){
+                        if(maytinh.isConsudung())
+                            listmay.add(maytinh);
+                    }
                     mInterface.danhsachmaytinh(listmay);
                 }
 
@@ -63,7 +69,7 @@ public class lcapnhatmaytinh {
 
     }
 
-    public void delMayTinh(final ArrayList<String> mList, String maphong, final objNguoiDung nguoidung){
+    public void capnhatTenMay(final objmaytinhs maytinh, final String newName, String maphong){
         final DatabaseReference mRef = mDatabase.getReference()
                 .child("thietbis")
                 .child(maphong)
@@ -72,33 +78,93 @@ public class lcapnhatmaytinh {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
+                    for(DataSnapshot val : dataSnapshot.getChildren()){
+                        if(val.child("mamay").getValue().toString().matches(maytinh.getMamay())){
+                            maytinh.setTenmay(newName);
+                            mRef.child(val.getKey())
+                                    .setValue(maytinh)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            mInterface.ketquacapnhat(true);
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            mInterface.ketquacapnhat(false);
+                                        }
+                                    });
+                            break;
+                        }
+                    }
+                }else
+                    mInterface.ketquacapnhat(false);
+            }
 
-                    GenericTypeIndicator<List<String>> gen = new GenericTypeIndicator<List<String>>(){};
-                    List<String> listValues = dataSnapshot.getValue(gen);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                mInterface.ketquacapnhat(false);
+            }
+        });
+    }
 
-                    int count_remove = mList.size();
+    public void delMayTinh(final ArrayList<objmaytinhs> mList, final String maphong, final objNguoiDung nguoidung){
+        final DatabaseReference mRef = mDatabase.getReference()
+                .child("thietbis")
+                .child(maphong)
+                .child("maytinhs");
+        //Lấy danh sách máy tính hiện tại
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
 
-                    for(int rm=0; rm< count_remove; rm++){
-                        listValues.remove(mList.get(rm));
+                    GenericTypeIndicator<List<objmaytinhs>> gen = new GenericTypeIndicator<List<objmaytinhs>>(){};
+                    List<objmaytinhs> listValues = dataSnapshot.getValue(gen);
+
+                    int size_root = listValues.size();
+                    int size_hu = mList.size();
+                    //duyệt qua các máy tính tìm máy cần delete sửa consudung về false
+                    for (int i=0; i<size_root; i++) {
+                        for(int j=0; j<size_hu; j++){
+                            if(listValues.get(i).getMamay().matches(mList.get(j).getMamay())){
+                                listValues.get(i).setConsudung(false);
+                            }
+                        }
                     }
 
+                    //Cập nhật lại giá trị
                     mRef.setValue(listValues);
 
+                    //Ghi vào kho
+                    luukho(mList);
 
+                    //Cập nhật vào lịch sử
+                    capnhatlichsudel(maphong, mList,nguoidung,"delete");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG,databaseError.toString());
+                mInterface.ketquadelete(false);
             }
         });
-        capnhatlichsudel(maphong, mList,nguoidung,"delete");
+    }
+
+    public void luukho(ArrayList<objmaytinhs> mList){
+        for(objmaytinhs maytinhhu : mList){
+
+            DatabaseReference mRef = mDatabase.getReference().child("khochuas").child(maytinhhu.getMamay());
+            mRef.setValue(Calendar.getInstance().getTimeInMillis());
+
+        }
 
     }
 
     public void addMayTinh(final String maphong, final int soluongmay, final objNguoiDung nguoidung){
-
+        mamay = new ArrayList<>();
         final DatabaseReference mRef = mDatabase.getReference()
                 .child("thietbis")
                 .child(maphong)
@@ -107,17 +173,22 @@ public class lcapnhatmaytinh {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    GenericTypeIndicator<List<String>> gen = new GenericTypeIndicator<List<String>>(){};
-                    mamay = dataSnapshot.getValue(gen);
 
+                    //Lấy danh sách máy tính
+                    GenericTypeIndicator<List<objmaytinhs>> gen = new GenericTypeIndicator<List<objmaytinhs>>(){};
+                    mamay=  dataSnapshot.getValue(gen);
+
+                    String mm = "";
                     int count = mamay.size();
-
                     for(int i=count+1; i<count+soluongmay; i++){
                         if(i<10)
                             mm = "0"+String.valueOf(i);
                         else
                             mm = String.valueOf(i);
-                        mamay.add(maphong+"PC"+mm);
+                        mamay.add(new objmaytinhs(
+                                true,
+                                maphong+"PC"+mm,
+                                "Máy "+ i));
                     }
 
                     DatabaseReference ref = mDatabase.getReference()
@@ -153,7 +224,7 @@ public class lcapnhatmaytinh {
         });
     }
 
-    private void capnhatlichsuadd(String maphong, final List<String> mamay, final int soluongmay, final objNguoiDung nguoidung, final  String loai){
+    private void capnhatlichsuadd(String maphong, final List<objmaytinhs> mamay, final int soluongmay, final objNguoiDung nguoidung, final  String loai){
         final DatabaseReference mRef = mDatabase.getReference()
                 .child("lichsucapnhats")
                 .child(maphong)
@@ -161,6 +232,13 @@ public class lcapnhatmaytinh {
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Lấy ra danh sách máy tính còn sử dụng trong tất cả máy tính của phòng
+                ArrayList<objmaytinhs> listMayTinhConSuDung = new ArrayList<>();
+                for(objmaytinhs mt_consudung :  mamay){
+                    if(mt_consudung.isConsudung())
+                        listMayTinhConSuDung.add(mt_consudung);
+                }
+
                 if(dataSnapshot.getValue()!=null){
 
                     GenericTypeIndicator<List<objlichsucapnhatmaytinh>> gen = new GenericTypeIndicator<List<objlichsucapnhatmaytinh>>(){};
@@ -173,12 +251,11 @@ public class lcapnhatmaytinh {
                     mls.setLoai(loai);
 
                     List<String> mamayupdate = new ArrayList<>();
-                    int count = mamay.size() - soluongmay-1;
-                    for(int i=count; i<mamay.size(); i++){
-                        mamayupdate.add(mamay.get(i));
+                    int count = listMayTinhConSuDung.size() - soluongmay +1;
+                    for(int i=count; i<listMayTinhConSuDung.size(); i++){
+                        mamayupdate.add(listMayTinhConSuDung.get(i).getMamay());
                     }
                     mls.setChitiet(mamayupdate);
-
                     mRef.child(String.valueOf(mlistcapnhat.size())).setValue(mls);
 
                 }else {
@@ -188,12 +265,13 @@ public class lcapnhatmaytinh {
                     mls.setNgaycapnhat(calendar.getTimeInMillis());
                     mls.setLoai(loai);
                     List<String> mamayupdate = new ArrayList<>();
-                    int count = mamay.size() - soluongmay;
-                    for(int i=count; i<mamay.size(); i++){
-                        mamayupdate.add(mamay.get(i));
+
+                    //tính vị trí của item add vào
+                    int count = listMayTinhConSuDung.size() - soluongmay +1;
+                    for(int i=count; i<listMayTinhConSuDung.size(); i++){
+                        mamayupdate.add(listMayTinhConSuDung.get(i).getMamay());
                     }
                     mls.setChitiet(mamayupdate);
-
                     mRef.child("0").setValue(mls);
                 }
 
@@ -207,7 +285,7 @@ public class lcapnhatmaytinh {
         });
     }
 
-    private void capnhatlichsudel(String maphong, final ArrayList<String> mList, final objNguoiDung nguoidung, final  String loai){
+    private void capnhatlichsudel(String maphong, final ArrayList<objmaytinhs> mList, final objNguoiDung nguoidung, final  String loai){
         final DatabaseReference mRef = mDatabase.getReference()
                 .child("lichsucapnhats")
                 .child(maphong)
@@ -229,7 +307,7 @@ public class lcapnhatmaytinh {
                     List<String> mamayupdate = new ArrayList<>();
                     int count = mList.size();
                     for(int i=0; i<count; i++){
-                        mamayupdate.add(mList.get(i));
+                        mamayupdate.add(mList.get(i).getMamay());
                     }
                     mls.setChitiet(mamayupdate);
 
@@ -244,12 +322,14 @@ public class lcapnhatmaytinh {
                     List<String> mamayupdate = new ArrayList<>();
                     int count = mList.size();
                     for(int i=0; i<count; i++){
-                        mamayupdate.add(mList.get(i));
+                        mamayupdate.add(mList.get(i).getMamay());
                     }
                     mls.setChitiet(mamayupdate);
 
                     mRef.child("0").setValue(mls);
                 }
+
+                mInterface.ketquadelete(true);
 
             }
 

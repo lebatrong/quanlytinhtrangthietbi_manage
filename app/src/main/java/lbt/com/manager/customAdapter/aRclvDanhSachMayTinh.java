@@ -47,7 +47,8 @@ public class aRclvDanhSachMayTinh extends RecyclerView.Adapter<aRclvDanhSachMayT
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvMaThietBi.setText(mList.get(position).getMathietbi());
+        holder.tvMaThietBi.setText("("+mList.get(position).getThietbi().getMamay()+")");
+        holder.tvTenThietBi.setText(mList.get(position).getThietbi().getTenmay());
         //MÁY BÌNH THƯỜNG
         if(mList.get(position).getLichsusuachua() == null || (mList.get(position).getLichsusuachua().isDasuachua() && mList.get(position).getLichsusuachua() != null)){
             holder.lnlNgungHoadDong.setVisibility(View.GONE);
@@ -66,12 +67,14 @@ public class aRclvDanhSachMayTinh extends RecyclerView.Adapter<aRclvDanhSachMayT
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvMaThietBi;
+        TextView tvTenThietBi;
         LinearLayout lnlBinhThuong,lnlNgungHoadDong;
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
             tvMaThietBi = itemView.findViewById(R.id.tvmamayrclv);
+            tvTenThietBi = itemView.findViewById(R.id.tvtenmayrclv);
             lnlBinhThuong = itemView.findViewById(R.id.lnldanghoatdong);
             lnlNgungHoadDong = itemView.findViewById(R.id.lnlngunghoatdong);
             Animation animation = AnimationUtils.loadAnimation(context,R.anim.anim_recyclerview);

@@ -26,12 +26,22 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tvmamayrclv"
+                    android:layout_weight="1"
+                    android:id="@+id/tvtenmayrclv"
                     android:gravity="center"
                     android:textColor="#000"
-                    android:text="PM01PC01"
-                    android:textSize="18dp"
+                    android:text="Máy tính 1"
+                    android:textSize="20dp"
                     android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/tvmamayrclv"
+                    android:gravity="center"
+                    android:textColor="@color/colorTextMain"
+                    android:text="PM01PC01"
+                    android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

@@ -1,44 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:nestedScrollingEnabled="false"
     tools:context=".ChinhSuaPhongMayActivity">
 
-    <android.support.v7.widget.Toolbar
-        app:title="@string/chinhsuaphongmay"
-        android:id="@+id/toolbarchinhsuaphongmay"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark">
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            app:title="@string/chinhsuaphongmay"
+            android:id="@+id/toolbarchinhsuaphongmay"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background_toolbar"
+            app:titleTextColor="@color/colorWhite"/>
+    </android.support.design.widget.AppBarLayout>
 
-    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/lnladdmaytinh"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/add"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/colorWhite"
-                android:layout_margin="5dp"
-                android:textAllCaps="false"
-                android:text="@string/them"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
-        </LinearLayout>
 
         <LinearLayout
             android:visibility="gone"
@@ -85,4 +73,23 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:clickable_overlay="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/speedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="2dp"
+        app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"
+        app:sdExpansionMode="top"
+        app:sdMainFabAnimationRotateAngle="90"
+        app:sdMainFabClosedSrc="@drawable/ic_menu"
+        app:sdMainFabOpenedSrc="@drawable/ic_close_black_24dp"
+        app:sdOverlayLayout="@id/overlay" />
+
+</android.support.design.widget.CoordinatorLayout>

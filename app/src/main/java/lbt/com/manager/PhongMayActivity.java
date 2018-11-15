@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.kongzue.dialog.v2.WaitDialog;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -37,7 +38,6 @@ import lbt.com.manager.Models.Firebase.objthietbikhacs;
 import lbt.com.manager.Presenter.iPhongMay;
 import lbt.com.manager.Presenter.lPhongMay;
 import lbt.com.manager.customAdapter.aRclvDanhSachMayTinh;
-import lbt.com.manager.utils.CustomDialogLoading;
 
 public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
 
@@ -45,9 +45,8 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
     objPhongMay mObjPhong;
     lPhongMay mphongmay;
 
-    CardView crvmain;
+    LinearLayout lnlMain;
 
-    CustomDialogLoading mDialogLoading;
 
     EditText edtKhac;
     TextView tvban, tvbanhu,tvbanbinhthuong;
@@ -69,7 +68,7 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
 
     objthietbikhacs mThietbi_default,mThietBi_Hu;
 
-    LinearLayout lnlpro,lnlmaytinh,lnltbk;
+    LinearLayout lnlpro;
     Button btndanhsachmaytinh,btndasuaxong;
     boolean isvisible_mt = true;
     boolean isvisible_tbk = true;
@@ -80,7 +79,7 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
         setContentView(R.layout.activity_phong_may);
         initView();
 
-        actionViGoneTitle();
+
         actionChiTietMayTinh();
         actiondasuxong();
     }
@@ -135,7 +134,7 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
             public void onClick(DialogInterface dialog, int which) {
 
                 mphongmay.suaxongtatcathietbikhac(mObjPhong.getMaphong());
-                mDialogLoading.showDialog(getText(R.string.dangtaidulieu).toString());
+                WaitDialog.show(PhongMayActivity.this,getText(R.string.dangtaidulieu).toString());
             }
         });
         builder.setPositiveButton(getText(R.string.huy), new DialogInterface.OnClickListener() {
@@ -155,32 +154,10 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
         finish();
     }
 
-    private void actionViGoneTitle() {
-        tvTitleTBKhac.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isvisible_tbk = !isvisible_tbk;
-                if(isvisible_tbk)
-                    lnltbk.setVisibility(View.VISIBLE);
-                else
-                    lnltbk.setVisibility(View.GONE);
-            }
-        });
 
-        tvTitleMayTinh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isvisible_mt = !isvisible_mt;
-                if(isvisible_mt)
-                    lnlmaytinh.setVisibility(View.VISIBLE);
-                else
-                    lnlmaytinh.setVisibility(View.GONE);
-            }
-        });
-    }
 
     private void initView() {
-        mDialogLoading = new CustomDialogLoading(this);
+
         mphongmay = new lPhongMay(this);
 
         String title = "Chi tiết phong máy";
@@ -210,9 +187,7 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
         });
 
         lnlpro  = findViewById(R.id.lnlproctp);
-        lnlmaytinh  = findViewById(R.id.lnlmaytinhthongke_ctp);
-        lnltbk  = findViewById(R.id.lnlthietbikhacthongke_ctp);
-        crvmain = findViewById(R.id.cardviewMain_ctp);
+        lnlMain = findViewById(R.id.lnlMain_ctp);
 
         tvban = findViewById(R.id.tvtongban_ctp);
         tvbanhu = findViewById(R.id.tvhuban_ctp);
@@ -277,14 +252,14 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
 
         //SETUP PROGRESS BAR
         lnlpro.setVisibility(View.VISIBLE);
-        crvmain.setVisibility(View.GONE);
+        lnlMain.setVisibility(View.GONE);
 
     }
 
 
     @Override
     public void loitaidulieu() {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         Toast.makeText(this, getText(R.string.loitaidulieu), Toast.LENGTH_SHORT).show();
         finish();
     }
@@ -352,7 +327,7 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
 
         //SETUP PROGRESS BAR
         lnlpro.setVisibility(View.GONE);
-        crvmain.setVisibility(View.VISIBLE);
+        lnlMain.setVisibility(View.VISIBLE);
 
         if(!tvbanhu.getText().toString().matches("0")||
                 !tvghehu.getText().toString().matches("0")||
@@ -425,7 +400,7 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
 
     @Override
     public void capnhatthanhcong(boolean isSuccess) {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         if(isSuccess)
             Toast.makeText(this, getText(R.string.capnhatthanhcong), Toast.LENGTH_SHORT).show();
         else

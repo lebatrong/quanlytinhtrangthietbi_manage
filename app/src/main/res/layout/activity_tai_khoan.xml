@@ -10,9 +10,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarTaiKhoan"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/background_toolbar"
+        app:titleTextColor="@color/colorWhite"
         app:title="@string/thongtintaikhoan"
-        app:titleTextColor="#f4f3f3"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 

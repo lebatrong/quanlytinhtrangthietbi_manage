@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
+import com.kongzue.dialog.v2.DialogSettings;
+import com.kongzue.dialog.v2.SelectDialog;
 
 import java.util.Calendar;
 import java.util.List;
@@ -139,7 +142,22 @@ public class MainActivity extends AppCompatActivity implements iDangNhap, iTaiKh
         btnDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mdangnhap.dangxuat();
+                SelectDialog.show(MainActivity.this,
+                        getText(R.string.dangxuat) + "?",
+                        null, getText(R.string.xacnhan).toString(),
+                        new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mdangnhap.dangxuat();
+                        dialog.dismiss();
+                    }
+                }, getText(R.string.huy).toString(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
             }
         });
     }
@@ -173,6 +191,11 @@ public class MainActivity extends AppCompatActivity implements iDangNhap, iTaiKh
         tvHoTen = findViewById(R.id.tvHoTenMain);
         anhnen = findViewById(R.id.imvhinhnenMain);
         btnDangXuat = findViewById(R.id.btnDangXuat);
+
+        //setting dialog
+        DialogSettings.use_blur = true;
+        DialogSettings.blur_alpha = 200;
+        DialogSettings.type = DialogSettings.TYPE_IOS;
     }
 
 

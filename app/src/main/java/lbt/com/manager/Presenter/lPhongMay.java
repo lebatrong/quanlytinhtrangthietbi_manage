@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,16 +14,21 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lbt.com.manager.Models.App.objThietBi;
 import lbt.com.manager.Models.App.objthietbimaytinh_app;
 import lbt.com.manager.Models.App.objthietbiphongmay_app;
 import lbt.com.manager.Models.App.objthongkemaytinh_app;
+import lbt.com.manager.Models.Firebase.objNguoiDung;
 import lbt.com.manager.Models.Firebase.objPhongMay;
 import lbt.com.manager.Models.Firebase.objchitietthietbimaytinh;
 import lbt.com.manager.Models.Firebase.objlichsu_maytinhs;
 import lbt.com.manager.Models.Firebase.objlichsu_thietbikhacs;
+import lbt.com.manager.Models.Firebase.objlichsucapnhatmaytinh;
+import lbt.com.manager.Models.Firebase.objlichsucapnhatthietbikhac;
+import lbt.com.manager.Models.Firebase.objmaytinhs;
 import lbt.com.manager.Models.Firebase.objthietbikhacs;
 
 public class lPhongMay {
@@ -46,12 +52,13 @@ public class lPhongMay {
 
 //                ================PHÂN TÁCH DATA============
                 //PHÂN TÁCH DANH SÁCH MÁY
-                GenericTypeIndicator<List<String>> gen = new GenericTypeIndicator<List<String>>(){};
-                List<String> mListMayTinh = dataSnapshot.child("maytinhs").getValue(gen);
+                GenericTypeIndicator<List<objmaytinhs>> gen = new GenericTypeIndicator<List<objmaytinhs>>(){};
+                List<objmaytinhs> mListMayTinh = dataSnapshot.child("maytinhs").getValue(gen);
+
                 //PHÂN TÁCH THIETBIKHACS
                 objthietbikhacs mthietbikhac = dataSnapshot.child("thietbikhacs").getValue(objthietbikhacs.class);
 
-//                THỐNG KÊ
+//              THỐNG KÊ
                 thongkechitietphong(new objthietbiphongmay_app(dataSnapshot.getKey(),mListMayTinh,mthietbikhac));
 
             }
@@ -115,15 +122,16 @@ public class lPhongMay {
     }
 
     private void phantachdata_maytinh(DataSnapshot dataSnapshot, objthietbiphongmay_app thietbi_default){
+
         if(dataSnapshot.child("maytinhs").getValue()!=null) {
-            List<String> listmaytinh = thietbi_default.getMaytinh();
+            List<objmaytinhs> listmaytinh = thietbi_default.getMaytinh();
 
             List<objlichsu_maytinhs> mlistMayTinhHu = new ArrayList<>();
-            for (String mamay: listmaytinh) {
-                if(dataSnapshot.child("maytinhs").child(mamay).getValue()!=null) //CÓ LỊCH SỬ
+            for (objmaytinhs mamay: listmaytinh) {
+                if(dataSnapshot.child("maytinhs").child(mamay.getMamay()).getValue()!=null) //CÓ LỊCH SỬ
                 {
                     GenericTypeIndicator<List<objlichsu_maytinhs>> gen = new GenericTypeIndicator<List<objlichsu_maytinhs>>(){};
-                    List<objlichsu_maytinhs> listmayhu = dataSnapshot.child("maytinhs").child(mamay).getValue(gen);
+                    List<objlichsu_maytinhs> listmayhu = dataSnapshot.child("maytinhs").child(mamay.getMamay()).getValue(gen);
 
                     if(!listmayhu.get(listmayhu.size()-1).isDasuachua()) //MÁY TÍNH CHƯA SỬA CHỬA
                     {
@@ -210,49 +218,68 @@ public class lPhongMay {
     }
 
     public void getDanhSachMay(final String maphong){
-        DatabaseReference mRef = mDatabase.getReference().child("thietbis").child(maphong).child("maytinhs");
+        DatabaseReference mRef = mDatabase.getReference().child("thietbis")
+                .child(maphong)
+                .child("maytinhs");
+
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //PHÂN TÁCH DANH SÁCH MÁY
-                GenericTypeIndicator<List<String>> gen = new GenericTypeIndicator<List<String>>(){};
-                final List<String> mListMayTinh = dataSnapshot.getValue(gen);
+                //Lấy tất cả máy tính trong phòng máy
+                //Lấy danh sách máy tính có node consudung == true;
+                final List<objmaytinhs> mListMayTinh = new ArrayList<>();
+                for (DataSnapshot maytinh : dataSnapshot.getChildren()) {
+                    if(Boolean.parseBoolean(maytinh.child("consudung").getValue().toString()) == true)
+                        mListMayTinh.add(maytinh.getValue(objmaytinhs.class));
+                }
 
+
+                //Child vào lịch sử lấy ra tình trạng
                 DatabaseReference mRefLichSu = mDatabase.getReference()
                         .child("lichsusuachuas")
                         .child(maphong)
                         .child("maytinhs");
-
                 mRefLichSu.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //PHÂN TÁCH DATA
                         ArrayList<objthietbimaytinh_app> mlist = new ArrayList<>();
                         for (DataSnapshot i : dataSnapshot.getChildren()) {
-                            objthietbimaytinh_app mobj = new objthietbimaytinh_app();
-                            mobj.setMathietbi(i.getKey());
-                            GenericTypeIndicator<List<objlichsu_maytinhs>> gen = new GenericTypeIndicator<List<objlichsu_maytinhs>>(){};
-                            List<objlichsu_maytinhs> mlistLichSu = i.getValue(gen);
+                            //Kiểm tra máy còn sử dụng hay không
+                            boolean isConSuDung = false;
+                            objmaytinhs maytinh = null;
+                            for(objmaytinhs mt : mListMayTinh){
+                                if(mt.getMamay().matches(i.getKey())){
+                                    isConSuDung = true;
+                                    maytinh = mt;
+                                    break;
+                                }
+                            }
+                            if(isConSuDung){
+                                objthietbimaytinh_app mobj = new objthietbimaytinh_app();
+                                mobj.setThietbi(maytinh);
+                                GenericTypeIndicator<List<objlichsu_maytinhs>> gen = new GenericTypeIndicator<List<objlichsu_maytinhs>>(){};
+                                List<objlichsu_maytinhs> mlistLichSu = i.getValue(gen);
 
-                            mobj.setLichsusuachua(mlistLichSu.get(mlistLichSu.size()-1));
-                            mlist.add(mobj);
+                                mobj.setLichsusuachua(mlistLichSu.get(mlistLichSu.size()-1));
+                                mlist.add(mobj);
+                            }
                         }
 
 
-
-                        List<String> maytemp = mListMayTinh;
+                        List<objmaytinhs> maytemp = mListMayTinh;
                         for(objthietbimaytinh_app i : mlist){
                             //KIỂM TRA XEM CÓ MÁY CHƯA
                             for(int j = 0; j< mListMayTinh.size(); j++){
-                                if(mListMayTinh.get(j).matches(i.getMathietbi()))
+                                if(mListMayTinh.get(j).getMamay().matches(i.getThietbi().getMamay()))
                                     maytemp.remove(j);
                             }
                         }
 
                         //NHỮNG MÁY TỐT CÓ LỊCH SỬ LÀ ĐÃ SỬA
-                        for(String mamay : maytemp){
+                        for(objmaytinhs mamay : maytemp){
                             objthietbimaytinh_app obj = new objthietbimaytinh_app();
-                            obj.setMathietbi(mamay);
+                            obj.setThietbi(mamay);
                             objlichsu_maytinhs ls = new objlichsu_maytinhs();
                             ls.setDasuachua(true);
                             obj.setLichsusuachua(ls);
@@ -318,7 +345,7 @@ public class lPhongMay {
         });
     }
 
-    public void capnhattinhtrangthietbi(objthietbikhacs thietbiupdate, objPhongMay phong){
+    public void capnhattinhtrangthietbi(final objthietbikhacs thietbiupdate, final objPhongMay phong){
         DatabaseReference mRef = mDatabase.getReference()
                 .child("thietbis")
                 .child(phong.getMaphong())
@@ -334,9 +361,59 @@ public class lPhongMay {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                mChiTiet.results_capnhatthietbikhac(true);
+                capnhatlichsuthietbikhac(thietbiupdate,phong.getMaphong());
             }
         });
 
     }
+
+    private void capnhatlichsuthietbikhac(final objthietbikhacs thietbiupdate, String maphong){
+        final DatabaseReference mRef = mDatabase.getReference()
+                .child("lichsucapnhats")
+                .child(maphong)
+                .child("thietbikhac");
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.getValue()!=null){
+
+                    GenericTypeIndicator<List<objlichsucapnhatthietbikhac>> gen = new GenericTypeIndicator<List<objlichsucapnhatthietbikhac>>(){};
+                    List<objlichsucapnhatthietbikhac> mlistcapnhat = dataSnapshot.getValue(gen);
+
+                    objlichsucapnhatthietbikhac mls = new objlichsucapnhatthietbikhac();
+                    mls.setEmailnguoicapnhat(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    Calendar calendar = Calendar.getInstance();
+                    mls.setNgaycapnhat(calendar.getTimeInMillis());
+                    mls.setLoai("");
+                    mls.setChitiet(thietbiupdate);
+
+                    mRef.child(String.valueOf(mlistcapnhat.size())).setValue(mls);
+                    mChiTiet.results_capnhatthietbikhac(true);
+
+                }else {
+                    GenericTypeIndicator<List<objlichsucapnhatthietbikhac>> gen = new GenericTypeIndicator<List<objlichsucapnhatthietbikhac>>(){};
+                    List<objlichsucapnhatthietbikhac> mlistcapnhat = dataSnapshot.getValue(gen);
+
+                    objlichsucapnhatthietbikhac mls = new objlichsucapnhatthietbikhac();
+                    mls.setEmailnguoicapnhat(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    Calendar calendar = Calendar.getInstance();
+                    mls.setNgaycapnhat(calendar.getTimeInMillis());
+                    mls.setLoai("");
+                    mls.setChitiet(thietbiupdate);
+
+                    mRef.child("0").setValue(mls);
+                    mChiTiet.results_capnhatthietbikhac(true);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                mChiTiet.results_capnhatthietbikhac(false);
+                Log.e(TAG,databaseError.toString());
+            }
+        });
+    }
+
 }

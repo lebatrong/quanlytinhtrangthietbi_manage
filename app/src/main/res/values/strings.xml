@@ -138,5 +138,13 @@
     <string name="dangdangnhap">Đang đăng nhập, vui lòng chờ...</string>
 
     <string name="xoamay">Xóa</string>
+    <string name="loading">Đang tải</string>
+    <string name="themmaytinh">Thêm máy tính</string>
+    <string name="xoamaytinh">Xóa máy tính</string>
+    <string name="capnhatmaytinh">Cập nhật máy tính</string>
+    <string name="nhaptenmay">Nhập tên máy: </string>
+    <string name="tenmaykhonghople">Tên máy không hợp lệ!</string>
+    <string name="capnhattenmaytinh">Cập nhật tên máy</string>
+    <string name="capnhattencho">Cập nhật </string>
 
 </resources>

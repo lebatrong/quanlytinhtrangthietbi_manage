@@ -14,18 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
+import com.kongzue.dialog.v2.WaitDialog;
 
 import lbt.com.manager.Models.Firebase.objlichsu_maytinhs;
 import lbt.com.manager.Presenter.iCapNhatTinhTrang;
 import lbt.com.manager.Presenter.lCapNhatTinhTrang;
-import lbt.com.manager.utils.CustomDialogLoading;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerQRCode extends AppCompatActivity implements ZXingScannerView.ResultHandler, iCapNhatTinhTrang {
     private ZXingScannerView mScannerView;
     private lCapNhatTinhTrang mTinhTrang;
     private String mQRcode;
-    CustomDialogLoading mDialogLoading;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class ScannerQRCode extends AppCompatActivity implements ZXingScannerView
 
         mTinhTrang = new lCapNhatTinhTrang(this);
         mQRcode = "";
-        mDialogLoading = new CustomDialogLoading(this);
+
         ActivityCompat.requestPermissions(ScannerQRCode.this,new String[] {Manifest.permission.CAMERA},1);
 
     }
@@ -55,7 +55,7 @@ public class ScannerQRCode extends AppCompatActivity implements ZXingScannerView
     public void handleResult(Result rawResult) {
         mQRcode = rawResult.getText();
         mTinhTrang.kiemtratinhtrangmay(rawResult.getText());
-        mDialogLoading.showDialog(getText(R.string.dangxuly).toString());
+        WaitDialog.show(this,getText(R.string.dangxuly).toString());
 
         //PHÁT ÂM BÁO KHI QUÉT THÀNH CÔNG
         MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.beep);
@@ -67,7 +67,7 @@ public class ScannerQRCode extends AppCompatActivity implements ZXingScannerView
 
     @Override
     public void laythongtinmay(boolean isSuccess) {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         if(isSuccess){
             Intent intent = new Intent(this,TinhTrangThietBiActivity.class);
             Bundle bundle = new Bundle();
@@ -95,7 +95,7 @@ public class ScannerQRCode extends AppCompatActivity implements ZXingScannerView
 
     @Override
     public void maycontot(boolean isTot, objlichsu_maytinhs mls, String mamay) {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         //NẾU MÁY HƯ SẼ XEM THÔNG TIN HƯ
         if(!isTot){
             showtinhtrangthietbi(mls,mamay);

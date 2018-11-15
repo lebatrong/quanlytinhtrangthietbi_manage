@@ -14,25 +14,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplatScreenActivity">
+        <activity android:name=".SplatScreenActivity"
+            android:screenOrientation="userPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScannerQRCode" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".PhongMayActivity" />
-        <activity android:name=".TaiKhoanActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".TinhTrangThietBiActivity" />
-        <activity android:name=".ThongBaoActivity" />
-        <activity android:name=".LichSuActivity" />
-        <activity android:name=".DanhSachMayTinhActivity" />
-        <activity android:name=".ChinhSuaPhongMayActivity" />
-        <activity android:name=".ChinhSuaThietBiKhacActivity"></activity>
+        <activity android:name=".ScannerQRCode"
+            android:screenOrientation="userPortrait" />
+        <activity android:name=".MainActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".PhongMayActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".TaiKhoanActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".SettingActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".TinhTrangThietBiActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".ThongBaoActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".LichSuActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".DanhSachMayTinhActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".ChinhSuaPhongMayActivity"
+            android:screenOrientation="userPortrait"/>
+        <activity android:name=".ChinhSuaThietBiKhacActivity"
+            android:screenOrientation="userPortrait"/>
     </application>
 
 </manifest>

@@ -7,14 +7,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PhongMayActivity"
-    android:background="@color/colorbackground">
+    android:background="@color/colorWhite">
 
     <android.support.v7.widget.Toolbar
         app:title="@string/chitietphongmay"
         android:id="@+id/toolbarchitietphongmay"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark">
+        android:background="@drawable/background_toolbar"
+        app:titleTextColor="@color/colorWhite">
     </android.support.v7.widget.Toolbar>
 
     <!--PROGRESSBAR-->
@@ -35,15 +36,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardviewMain_ctp"
+        <LinearLayout
+            android:id="@+id/lnlMain_ctp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <com.robertlevonyan.views.expandable.Expandable
+                android:layout_marginBottom="3dp"
+                app:exp_headerBackgroundColor="@color/colortitle"
+                android:id="@+id/expandable"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <!--TEXTVIEW MÁY TÍNH-->
                 <TextView
@@ -51,17 +55,15 @@
                     android:gravity="center"
                     android:textAllCaps="true"
                     android:text="@string/maytinh"
-                    android:textColor="#fff"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@drawable/background_title"
+                    android:textColor="#ffffff"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
                 <!--LAYOUT MÁY TÍNH THỐNG KÊ-->
                 <LinearLayout
+                    android:background="@color/colorWhite"
                     android:id="@+id/lnlmaytinhthongke_ctp"
                     android:visibility="visible"
                     android:orientation="vertical"
@@ -390,7 +392,6 @@
                     <Button
                         android:id="@+id/btnchitietmaytinh_ctp"
                         android:layout_marginTop="15dp"
-                        android:layout_marginBottom="5dp"
                         android:text="@string/chitiet"
                         android:layout_marginRight="40dp"
                         android:layout_marginLeft="40dp"
@@ -400,26 +401,31 @@
 
                 </LinearLayout>
 
+            </com.robertlevonyan.views.expandable.Expandable>
+
+
+
+            <com.robertlevonyan.views.expandable.Expandable
+                app:exp_headerBackgroundColor="@color/colortitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <!--THIẾT BỊ KHÁC-->
                 <TextView
                     android:id="@+id/tvtitlethietbikhac_ctp"
-                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:textAllCaps="true"
                     android:text="@string/thietbikhac"
                     android:textColor="#fff"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@drawable/background_title"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
 
                 <!--LAYOUT THIẾT BỊ KHÁC THỐNG KÊ-->
                 <LinearLayout
+                    android:background="@color/colorWhite"
                     android:id="@+id/lnlthietbikhacthongke_ctp"
                     android:visibility="visible"
                     android:orientation="vertical"
@@ -929,7 +935,6 @@
 
                     <Button
                         android:id="@+id/btndasuaxongtatca"
-                        android:layout_marginBottom="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
@@ -941,11 +946,10 @@
 
 
                 </LinearLayout>
+            </com.robertlevonyan.views.expandable.Expandable>
 
 
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,16 +23,17 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import lbt.com.manager.CustomInterface.iDeleteRclvDanhSachMay;
+import lbt.com.manager.Models.App.objmaytinh_app;
 import lbt.com.manager.Models.App.objthietbimaytinh_app;
+import lbt.com.manager.Models.Firebase.objmaytinhs;
 import lbt.com.manager.R;
 
 public class aRclvDanhSachMay_Add extends RecyclerView.Adapter<aRclvDanhSachMay_Add.ViewHolder> {
 
-    ArrayList<String> mList;
+    ArrayList<objmaytinh_app> mList;
     Context context;
-    ArrayList<Integer> listChecked;
 
-    iDeleteRclvDanhSachMay mInterface;
+    boolean isChecked;
 
     private OnItemClickListener listener;
 
@@ -38,20 +41,29 @@ public class aRclvDanhSachMay_Add extends RecyclerView.Adapter<aRclvDanhSachMay_
         void onClick(View v, int pos);
     }
 
-    public ArrayList<Integer> getListChecked() {
-        return listChecked;
+    public ArrayList<objmaytinh_app> getmList() {
+        return mList;
     }
+
+    public void setmList(ArrayList<objmaytinh_app> mList) {
+        this.mList = mList;
+        notifyItemRangeChanged(0, mList.size());
+    }
+
+    public objmaytinh_app getItem(int position){
+        return mList.get(position);
+    }
+
 
     public void setOnClickListener(OnItemClickListener ls){
         this.listener = ls;
     }
 
 
-    public aRclvDanhSachMay_Add(ArrayList<String> mList, Context context, iDeleteRclvDanhSachMay mInterface) {
+    public aRclvDanhSachMay_Add(ArrayList<objmaytinh_app> mList, Context context) {
         this.mList = mList;
         this.context = context;
-        this.mInterface = mInterface;
-        this.listChecked = new ArrayList<>();
+        this.isChecked = false;
     }
 
     @NonNull
@@ -62,36 +74,36 @@ public class aRclvDanhSachMay_Add extends RecyclerView.Adapter<aRclvDanhSachMay_
         return new ViewHolder(v);
     }
 
+    public void setChecked(boolean checked){
+        this.isChecked = checked;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.tvMaThietBi.setText(mList.get(position));
+        Log.e("kiemtra", "position "+ position + " - " + mList.get(position).isChecked());
 
-        holder.lnlThietBi.setOnLongClickListener(new View.OnLongClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @SuppressLint("ResourceAsColor")
+        holder.tvMaThietBi.setText("("+mList.get(position).getMaytinh().getMamay()+")");
+        holder.tvTenThietBi.setText(mList.get(position).getMaytinh().getTenmay());
+
+        holder.chkCheck.setChecked(mList.get(position).isChecked());
+
+        if(isChecked) {
+            holder.chkCheck.setVisibility(View.VISIBLE);
+        }else {
+            holder.chkCheck.setVisibility(View.GONE);
+        }
+
+        holder.chkCheck.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                if(!listChecked.contains(position)) {
-                    holder.lnlThietBi.setBackground(context.getDrawable(R.drawable.background_check));
-                    listChecked.add(position);
-                    holder.imvCheck.setVisibility(View.VISIBLE);
-                }else {
-                    int size = listChecked.size();
-                    for(int i=0; i<size; i++){
-                        if(listChecked.get(i)==position) {
-                            listChecked.remove(i);
-                            break;
-                        }
-                    }
-                    holder.lnlThietBi.setBackground(context.getDrawable(R.drawable.background_nocheck));
-                    holder.imvCheck.setVisibility(View.GONE);
-                }
-
-                mInterface.deleteItems(listChecked);
-
-                return true;
+            public void onClick(View view) {
+                if(holder.chkCheck.isChecked())
+                    mList.get(position).setChecked(true);
+                else
+                    mList.get(position).setChecked(false);
             }
         });
+
     }
 
     @Override
@@ -102,14 +114,16 @@ public class aRclvDanhSachMay_Add extends RecyclerView.Adapter<aRclvDanhSachMay_
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvMaThietBi;
-        ImageView imvCheck;
+        TextView tvTenThietBi;
+        CheckBox chkCheck;
         LinearLayout lnlThietBi;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             lnlThietBi = itemView.findViewById(R.id.lnlmaytinh_add);
             tvMaThietBi = itemView.findViewById(R.id.tvmamayrclv_edit);
-            imvCheck = itemView.findViewById(R.id.imvCheck_edit);
+            tvTenThietBi = itemView.findViewById(R.id.tvtenmayrclv_edit);
+            chkCheck = itemView.findViewById(R.id.imvCheck_edit);
             Animation animation = AnimationUtils.loadAnimation(context,R.anim.anim_recyclerview);
             itemView.setAnimation(animation);
             itemView.setOnClickListener(new View.OnClickListener() {

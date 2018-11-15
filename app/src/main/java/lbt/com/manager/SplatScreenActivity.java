@@ -67,7 +67,7 @@ public class SplatScreenActivity extends AppCompatActivity implements iDangNhap 
                     startActivity(new Intent(SplatScreenActivity.this,MainActivity.class));
                     finish();
                 }
-            },700);
+            },1000);
         }else{
             startActivity(new Intent(this,LoginActivity.class));
             finish();

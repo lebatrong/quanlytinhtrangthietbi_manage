@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kongzue.dialog.v2.WaitDialog;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -22,7 +24,6 @@ import lbt.com.manager.Models.Firebase.objchitietthietbimaytinh;
 import lbt.com.manager.Models.Firebase.objlichsu_maytinhs;
 import lbt.com.manager.Presenter.iCapNhatTinhTrang;
 import lbt.com.manager.Presenter.lCapNhatTinhTrang;
-import lbt.com.manager.utils.CustomDialogLoading;
 
 public class TinhTrangThietBiActivity extends AppCompatActivity implements iCapNhatTinhTrang {
 
@@ -34,7 +35,6 @@ public class TinhTrangThietBiActivity extends AppCompatActivity implements iCapN
     Toolbar toolbar;
     Button btnDaSua;
 
-    CustomDialogLoading mDialogLoading;
     String mamay;
 
     @Override
@@ -57,7 +57,7 @@ public class TinhTrangThietBiActivity extends AppCompatActivity implements iCapN
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mCapNhat.capnhattinhtrang(mamay);
-                        mDialogLoading.showDialog(getText(R.string.dangtaidulieu).toString());
+                        WaitDialog.show(TinhTrangThietBiActivity.this,getText(R.string.dangtaidulieu).toString());
                     }
                 });
                 builder.setPositiveButton(getText(R.string.huy), new DialogInterface.OnClickListener() {
@@ -127,7 +127,7 @@ public class TinhTrangThietBiActivity extends AppCompatActivity implements iCapN
 
     private void initView() {
         mCapNhat = new lCapNhatTinhTrang(this);
-        mDialogLoading = new CustomDialogLoading(this);
+
         //INIT VIEW
         imvbanphim = findViewById(R.id.imvcheckbanphimdialog);
         imvchuot = findViewById(R.id.imvcheckchuotdialog);
@@ -174,7 +174,7 @@ public class TinhTrangThietBiActivity extends AppCompatActivity implements iCapN
 
     @Override
     public void capnhatthanhcong(boolean isthanhcong) {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         if(isthanhcong){
             Toast.makeText(this, R.string.capnhatthanhcong, Toast.LENGTH_SHORT).show();
             finish();

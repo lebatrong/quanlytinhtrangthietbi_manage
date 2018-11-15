@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#6e83f9</color>
+    <color name="colorPrimaryDark">#ed0e4cda</color>
     <color name="colorAccent">#03892b</color>
     <color name="colorWhite">#fff</color>
     <color name="colorLine">#d7d7d7</color>
     <color name="colorbackground">#f2f2f2</color>
-    <color name="colortitle">#087e02</color>
+    <color name="colortitle">#dc088c01</color>
     <color name="colortong">#e49800</color>
     <color name="colorhu">#ef0008</color>
     <color name="colorbinhthuong">#20c200</color>
@@ -17,6 +17,13 @@
     <color name="colorRow1">#ededed</color>
     <color name="colorRow2">#dcdcdc</color>
     <color name="colortitletable">#c7c7c7</color>
+    <color name="colorTextMain">#868686</color>
 
+    <color name="app_primary">#1976D2</color>
+    <color name="app_primary_dark">#1565C0</color>
+    <color name="grey">#DDDDDD</color>
+    <color name="light_grey">#EEEEEE</color>
+    <color name="white_transparent">#99FFFFFF</color>
+    <color name="black">#000</color>
 
 </resources>

@@ -12,7 +12,8 @@
     <android.support.v7.widget.Toolbar
         app:title="@string/thongbao"
         android:id="@+id/toolbarThongBao"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/background_toolbar"
+        app:titleTextColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 

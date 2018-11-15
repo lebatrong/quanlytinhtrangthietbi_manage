@@ -27,23 +27,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <LinearLayout
                 android:layout_weight="90"
-                android:id="@+id/tvmamayrclv_edit"
-                android:gravity="center"
-                android:textColor="#000"
-                android:text="PM01PC01"
-                android:textSize="20dp"
-                android:textStyle="bold"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imvCheck_edit"
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/tvtenmayrclv_edit"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:text="Máy tính 1"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/tvmamayrclv_edit"
+                    android:gravity="center"
+                    android:textColor="@color/colorTextMain"
+                    android:text="PM01PC01"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+            <CheckBox
                 android:visibility="gone"
+                android:id="@+id/imvCheck_edit"
                 android:layout_gravity="center"
                 android:layout_weight="10"
-                android:src="@drawable/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

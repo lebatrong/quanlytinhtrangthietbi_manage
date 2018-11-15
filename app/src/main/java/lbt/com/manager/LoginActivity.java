@@ -11,16 +11,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.kongzue.dialog.v2.WaitDialog;
 
 import lbt.com.manager.Presenter.iDangNhap;
 import lbt.com.manager.Presenter.lDangNhap;
-import lbt.com.manager.utils.CustomDialogLoading;
 
 public class LoginActivity extends AppCompatActivity implements iDangNhap {
 
     Button btnLogin;
     TextInputLayout tiluser,tilpwd;
-    CustomDialogLoading mDialogLoading;
     lDangNhap mDangNhap;
 
     @Override
@@ -36,7 +35,6 @@ public class LoginActivity extends AppCompatActivity implements iDangNhap {
         btnLogin = findViewById(R.id.btnDangNhap);
         tiluser = findViewById(R.id.tilTenDangNhap);
         tilpwd = findViewById(R.id.tilMatKhau);
-        mDialogLoading = new CustomDialogLoading(this);
         mDangNhap = new lDangNhap(this,this);
     }
 
@@ -45,7 +43,8 @@ public class LoginActivity extends AppCompatActivity implements iDangNhap {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialogLoading.showDialog(getText(R.string.dangdangnhap).toString());
+                WaitDialog.show(LoginActivity.this, getText(R.string.dangdangnhap).toString());
+
                 String userName = tiluser.getEditText().getText().toString();
                 String pwd = tilpwd.getEditText().getText().toString();
                 tilpwd.setErrorEnabled(false);
@@ -60,35 +59,35 @@ public class LoginActivity extends AppCompatActivity implements iDangNhap {
 
     @Override
     public void dangnhapthatbai() {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         Toast.makeText(this, getString(R.string.dangnhapthatbai), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void dangnhapthanhcong() {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         startActivity(new Intent(LoginActivity.this,MainActivity.class));
         finish();
     }
 
     @Override
     public void saitendangnhap() {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         tiluser.setErrorEnabled(true);
         tiluser.setError(getString(R.string.tendangnhapkhonghople));
     }
 
     @Override
     public void saimatkhau() {
-        mDialogLoading.dismissDialog();
+        WaitDialog.dismiss();
         tilpwd.setErrorEnabled(true);
         tilpwd.setError(getString(R.string.matkhaukhonghople));
     }
 
     @Override
     public void bankhongcoquyentruycap() {
-        mDialogLoading.dismissDialog();
-            Toast.makeText(this, getText(R.string.bankhongcoquyen), Toast.LENGTH_SHORT).show();
+        WaitDialog.dismiss();
+        Toast.makeText(this, getText(R.string.bankhongcoquyen), Toast.LENGTH_SHORT).show();
 
     }
 
