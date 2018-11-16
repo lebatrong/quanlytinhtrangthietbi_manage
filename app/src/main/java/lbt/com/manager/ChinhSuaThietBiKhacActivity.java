@@ -69,7 +69,7 @@ public class ChinhSuaThietBiKhacActivity extends AppCompatActivity implements iP
                 capnhat.setKhac("");
 
                 WaitDialog.show(ChinhSuaThietBiKhacActivity.this,getText(R.string.dangtaidulieu).toString());
-                mLogicPhongMay.capnhattinhtrangthietbi(capnhat,mObjPhong);
+                mLogicPhongMay.capnhattinhtrangthietbikhac(capnhat,mThietbi_default,mObjPhong);
 
             }
         });

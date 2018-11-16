@@ -8,12 +8,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.kongzue.dialog.v2.WaitDialog;
+import com.silencedut.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -70,8 +74,8 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
 
     LinearLayout lnlpro;
     Button btndanhsachmaytinh,btndasuaxong;
-    boolean isvisible_mt = true;
-    boolean isvisible_tbk = true;
+
+    ExpandableLayout explMayTinh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,6 +258,12 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
         lnlpro.setVisibility(View.VISIBLE);
         lnlMain.setVisibility(View.GONE);
 
+
+        explMayTinh = findViewById(R.id.exdlMayTinh_ctp);
+
+
+
+
     }
 
 
@@ -329,6 +339,8 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
         lnlpro.setVisibility(View.GONE);
         lnlMain.setVisibility(View.VISIBLE);
 
+
+
         if(!tvbanhu.getText().toString().matches("0")||
                 !tvghehu.getText().toString().matches("0")||
                 !tvtivihu.getText().toString().matches("0")||
@@ -347,6 +359,7 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
             else
                 btndasuaxong.setVisibility(View.GONE);
         }
+
     }
 
     @Override

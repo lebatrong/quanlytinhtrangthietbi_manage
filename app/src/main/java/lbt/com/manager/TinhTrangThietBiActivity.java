@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kongzue.dialog.v2.SelectDialog;
 import com.kongzue.dialog.v2.WaitDialog;
 
 import java.text.SimpleDateFormat;
@@ -51,24 +52,23 @@ public class TinhTrangThietBiActivity extends AppCompatActivity implements iCapN
         btnDaSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(TinhTrangThietBiActivity.this);
-                builder.setMessage(getText(R.string.dasuaxong)+" "+ mamay +" ?");
-                builder.setNegativeButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mCapNhat.capnhattinhtrang(mamay);
-                        WaitDialog.show(TinhTrangThietBiActivity.this,getText(R.string.dangtaidulieu).toString());
-                    }
-                });
-                builder.setPositiveButton(getText(R.string.huy), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                SelectDialog.show(TinhTrangThietBiActivity.this,
+                        getText(R.string.dasuaxong)+" "+ mamay +" ?",
+                        null, getText(R.string.xacnhan).toString(),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mCapNhat.capnhattinhtrang(mamay);
+                                WaitDialog.show(TinhTrangThietBiActivity.this,getText(R.string.dangtaidulieu).toString());
+                                dialog.dismiss();
+                            }
+                        }, getText(R.string.huy).toString(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
 
-                Dialog dialog = builder.create();
-                dialog.show();
             }
         });
 

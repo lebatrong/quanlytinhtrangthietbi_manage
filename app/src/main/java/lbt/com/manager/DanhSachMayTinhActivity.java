@@ -59,13 +59,15 @@ public class DanhSachMayTinhActivity extends AppCompatActivity implements iPhong
         setContentView(R.layout.activity_danh_sach_may_tinh);
 
         initView();
-        mphongmay.getDanhSachMay(mObjPhong.getMaphong());
+
 
     }
 
-
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mphongmay.getDanhSachMay(mObjPhong.getMaphong());
+    }
 
     private void initView() {
         String title = getText(R.string.danhsachmaytinh).toString();

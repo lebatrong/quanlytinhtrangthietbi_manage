@@ -1,1 +1,1 @@
-include ':app', ':DialogCustom', ':Loading'
+include ':app', ':DialogCustom', ':Loading', ':ExpandableLayout'

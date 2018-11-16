@@ -19,6 +19,8 @@ import java.util.List;
 import lbt.com.manager.Models.App.objLichSu;
 import lbt.com.manager.Models.Firebase.objlichsu_maytinhs;
 import lbt.com.manager.Models.Firebase.objPhongMay;
+import lbt.com.manager.Models.Firebase.objlichsucapnhatmaytinh;
+import lbt.com.manager.Models.Firebase.objlichsucapnhatthietbikhac;
 
 public class lLichSu {
 
@@ -74,5 +76,70 @@ public class lLichSu {
         SharedPreferences spf = context.getSharedPreferences("data",Context.MODE_PRIVATE);
         Gson gson = new Gson();
         return gson.fromJson(spf.getString("phongmay",null),objPhongMay.class);
+    }
+
+    public void getLichSuCapNhatMayTinh(){
+        final objPhongMay mPhongMay = getMyRoom();
+        if(mPhongMay!=null){
+
+            DatabaseReference mRef = mDatabase.getReference().child("lichsucapnhats")
+                    .child(mPhongMay.getMaphong())
+                    .child("maytinh");
+
+            mRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue()!=null){
+
+                        GenericTypeIndicator<List<objlichsucapnhatmaytinh>> gen = new GenericTypeIndicator<List<objlichsucapnhatmaytinh>>(){};
+                        List<objlichsucapnhatmaytinh> mList = dataSnapshot.getValue(gen);
+
+                        mLichSu.getListLichSuCapNhatMayTinh(mList);
+                    }else
+                        mLichSu.lichsutrong();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    mLichSu.loidulieu();
+                    Log.e(TAG,databaseError.toString());
+                }
+            });
+
+        }else
+            mLichSu.loidulieu();
+    }
+
+
+    public void getLichSuCapNhatThietBiKhac(){
+        final objPhongMay mPhongMay = getMyRoom();
+        if(mPhongMay!=null){
+
+            DatabaseReference mRef = mDatabase.getReference().child("lichsucapnhats")
+                    .child(mPhongMay.getMaphong())
+                    .child("thietbikhac");
+
+            mRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue()!=null){
+
+                        GenericTypeIndicator<List<objlichsucapnhatthietbikhac>> gen = new GenericTypeIndicator<List<objlichsucapnhatthietbikhac>>(){};
+                        List<objlichsucapnhatthietbikhac> mList = dataSnapshot.getValue(gen);
+
+                        mLichSu.getListLichSuCapNhatThietBiKhac(mList);
+                    }else
+                        mLichSu.lichsutrong();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    mLichSu.loidulieu();
+                    Log.e(TAG,databaseError.toString());
+                }
+            });
+
+        }else
+            mLichSu.loidulieu();
     }
 }

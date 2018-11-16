@@ -14,6 +14,8 @@ import java.util.List;
 
 import lbt.com.manager.Models.App.objLichSu;
 import lbt.com.manager.Models.Firebase.objlichsu_maytinhs;
+import lbt.com.manager.Models.Firebase.objlichsucapnhatmaytinh;
+import lbt.com.manager.Models.Firebase.objlichsucapnhatthietbikhac;
 import lbt.com.manager.Presenter.iLichSu;
 import lbt.com.manager.Presenter.lLichSu;
 import lbt.com.manager.customAdapter.aExplvLichSu;
@@ -93,5 +95,15 @@ public class LichSuActivity extends AppCompatActivity implements iLichSu {
         mList = list;
         adapter = new aExplvLichSu(this,list);
         explist.setAdapter(adapter);
+    }
+
+    @Override
+    public void getListLichSuCapNhatMayTinh(List<objlichsucapnhatmaytinh> list) {
+
+    }
+
+    @Override
+    public void getListLichSuCapNhatThietBiKhac(List<objlichsucapnhatthietbikhac> list) {
+
     }
 }

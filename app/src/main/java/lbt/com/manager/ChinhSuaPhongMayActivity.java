@@ -257,7 +257,7 @@ public class ChinhSuaPhongMayActivity extends AppCompatActivity implements iPhon
                          InputDialog.show(ChinhSuaPhongMayActivity.this,
                                  getText(R.string.capnhattenmaytinh).toString(),
                                  getText(R.string.capnhattencho).toString()
-                                         + adapter.getItem(pos).getMaytinh().getTenmay() +
+                                         + " "+adapter.getItem(pos).getMaytinh().getTenmay() +
                                          " (" +adapter.getItem(pos).getMaytinh().getMamay()+")",
                                  getText(R.string.ok).toString(),
                                  new InputDialogOkButtonClickListener() {

@@ -46,7 +46,6 @@
                     android:layout_height="wrap_content" />
 
                 <LinearLayout
-                    android:visibility="visible"
                     android:id="@+id/lnldanghoatdong"
                     android:gravity="center"
                     android:orientation="vertical"

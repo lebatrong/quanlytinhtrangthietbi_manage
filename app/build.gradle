@@ -44,10 +44,10 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation project(':DialogCustom')
     implementation project(':Loading')
-//MaterialExpansionPanel
-    implementation 'com.robertlevonyan.view:MaterialExpansionPanel:1.2.0'
-//FloatingActionButtonSpeedDial
-    implementation "com.leinardi.android:speed-dial:2.0.0"
+
+    //FloatingActionButtonSpeedDial
+    implementation 'com.leinardi.android:speed-dial:2.0.0'
+    implementation project(':ExpandableLayout')
 
 }
 

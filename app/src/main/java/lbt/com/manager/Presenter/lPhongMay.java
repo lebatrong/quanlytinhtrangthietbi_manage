@@ -345,12 +345,12 @@ public class lPhongMay {
         });
     }
 
-    public void capnhattinhtrangthietbi(final objthietbikhacs thietbiupdate, final objPhongMay phong){
+    public void capnhattinhtrangthietbikhac(final objthietbikhacs thietbinew, final  objthietbikhacs thietbiold, final objPhongMay phong){
         DatabaseReference mRef = mDatabase.getReference()
                 .child("thietbis")
                 .child(phong.getMaphong())
                 .child("thietbikhacs");
-        mRef.setValue(thietbiupdate)
+        mRef.setValue(thietbinew)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -361,13 +361,13 @@ public class lPhongMay {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                capnhatlichsuthietbikhac(thietbiupdate,phong.getMaphong());
+                capnhatlichsuthietbikhac(thietbinew, thietbiold,phong.getMaphong());
             }
         });
 
     }
 
-    private void capnhatlichsuthietbikhac(final objthietbikhacs thietbiupdate, String maphong){
+    private void capnhatlichsuthietbikhac(final objthietbikhacs thietbinew,final  objthietbikhacs thietbiold, String maphong){
         final DatabaseReference mRef = mDatabase.getReference()
                 .child("lichsucapnhats")
                 .child(maphong)
@@ -386,21 +386,21 @@ public class lPhongMay {
                     Calendar calendar = Calendar.getInstance();
                     mls.setNgaycapnhat(calendar.getTimeInMillis());
                     mls.setLoai("");
-                    mls.setChitiet(thietbiupdate);
+                    mls.setThietbinew(thietbinew);
+                    mls.setThietbiold(thietbiold);
 
                     mRef.child(String.valueOf(mlistcapnhat.size())).setValue(mls);
                     mChiTiet.results_capnhatthietbikhac(true);
 
                 }else {
-                    GenericTypeIndicator<List<objlichsucapnhatthietbikhac>> gen = new GenericTypeIndicator<List<objlichsucapnhatthietbikhac>>(){};
-                    List<objlichsucapnhatthietbikhac> mlistcapnhat = dataSnapshot.getValue(gen);
 
                     objlichsucapnhatthietbikhac mls = new objlichsucapnhatthietbikhac();
                     mls.setEmailnguoicapnhat(FirebaseAuth.getInstance().getCurrentUser().getEmail());
                     Calendar calendar = Calendar.getInstance();
                     mls.setNgaycapnhat(calendar.getTimeInMillis());
                     mls.setLoai("");
-                    mls.setChitiet(thietbiupdate);
+                    mls.setThietbinew(thietbinew);
+                    mls.setThietbiold(thietbiold);
 
                     mRef.child("0").setValue(mls);
                     mChiTiet.results_capnhatthietbikhac(true);

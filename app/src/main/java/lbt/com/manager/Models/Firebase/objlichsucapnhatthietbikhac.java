@@ -1,13 +1,15 @@
 package lbt.com.manager.Models.Firebase;
 
 public class objlichsucapnhatthietbikhac {
-    objthietbikhacs chitiet;
+    objthietbikhacs thietbinew;
+    objthietbikhacs thietbiold;
     String emailnguoicapnhat;
     String loai;
     long ngaycapnhat;
 
-    public objlichsucapnhatthietbikhac(objthietbikhacs chitiet, String emailnguoicapnhat, String loai, long ngaycapnhat) {
-        this.chitiet = chitiet;
+    public objlichsucapnhatthietbikhac(objthietbikhacs thietbinew, objthietbikhacs thietbiold, String emailnguoicapnhat, String loai, long ngaycapnhat) {
+        this.thietbinew = thietbinew;
+        this.thietbiold = thietbiold;
         this.emailnguoicapnhat = emailnguoicapnhat;
         this.loai = loai;
         this.ngaycapnhat = ngaycapnhat;
@@ -16,12 +18,20 @@ public class objlichsucapnhatthietbikhac {
     public objlichsucapnhatthietbikhac() {
     }
 
-    public objthietbikhacs getChitiet() {
-        return chitiet;
+    public objthietbikhacs getThietbinew() {
+        return thietbinew;
     }
 
-    public void setChitiet(objthietbikhacs chitiet) {
-        this.chitiet = chitiet;
+    public void setThietbinew(objthietbikhacs thietbinew) {
+        this.thietbinew = thietbinew;
+    }
+
+    public objthietbikhacs getThietbiold() {
+        return thietbiold;
+    }
+
+    public void setThietbiold(objthietbikhacs thietbiold) {
+        this.thietbiold = thietbiold;
     }
 
     public String getEmailnguoicapnhat() {
