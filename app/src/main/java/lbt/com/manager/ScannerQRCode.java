@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
+import com.kongzue.dialog.v2.DialogSettings;
+import com.kongzue.dialog.v2.MessageDialog;
 import com.kongzue.dialog.v2.WaitDialog;
 
 import lbt.com.manager.Models.Firebase.objlichsu_maytinhs;
@@ -36,8 +38,19 @@ public class ScannerQRCode extends AppCompatActivity implements ZXingScannerView
         mTinhTrang = new lCapNhatTinhTrang(this);
         mQRcode = "";
 
+        //SetTing Dialog;
+        DialogSettings.use_blur = true;
+        DialogSettings.blur_alpha = 200;
+        DialogSettings.type = DialogSettings.TYPE_IOS;
+
         ActivityCompat.requestPermissions(ScannerQRCode.this,new String[] {Manifest.permission.CAMERA},1);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DialogSettings.unloadAllDialog();
     }
 
     @Override
@@ -110,19 +123,18 @@ public class ScannerQRCode extends AppCompatActivity implements ZXingScannerView
     }
 
     public void showaler(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
-        builder.setMessage(getText(R.string.mayhoatdongtot));
-        builder.setNegativeButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+
+        MessageDialog.show(this,
+                getText(R.string.mayhoatdongtot).toString(),
+                getText(R.string.thongbao).toString(),
+                getText(R.string.ok).toString(),
+                new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 finish();
             }
         });
 
-        Dialog dialog = builder.create();
-        dialog.show();
     }
 
     private void showtinhtrangthietbi(objlichsu_maytinhs mls, String mamay){

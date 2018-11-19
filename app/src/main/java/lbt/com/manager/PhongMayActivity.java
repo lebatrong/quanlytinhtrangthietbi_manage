@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.kongzue.dialog.v2.SelectDialog;
 import com.kongzue.dialog.v2.WaitDialog;
 import com.silencedut.expandablelayout.ExpandableLayout;
 
@@ -68,7 +69,7 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
     TextView tvtongmanhinh,tvbtmanhinh,tvhumanhinh;
     TextView tvtongcpu,tvbtcpu,tvhucpu;
 
-    TextView tvTitleMayTinh, tvTitleTBKhac;
+
 
     objthietbikhacs mThietbi_default,mThietBi_Hu;
 
@@ -131,25 +132,24 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
     }
 
     private void showAlert(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getText(R.string.bandansuaxong));
-        builder.setNegativeButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
 
-                mphongmay.suaxongtatcathietbikhac(mObjPhong.getMaphong());
-                WaitDialog.show(PhongMayActivity.this,getText(R.string.dangtaidulieu).toString());
-            }
-        });
-        builder.setPositiveButton(getText(R.string.huy), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        SelectDialog.show(this,
+                getText(R.string.bandansuaxong).toString(),
+                null, getText(R.string.xacnhan).toString(),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mphongmay.suaxongtatcathietbikhac(mObjPhong.getMaphong());
+                        WaitDialog.show(PhongMayActivity.this,getText(R.string.dangtaidulieu).toString());
+                        dialog.dismiss();
+                    }
+                }, getText(R.string.huy).toString(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
-        Dialog dialog = builder.create();
-        dialog.show();
     }
 
     @Override
@@ -250,9 +250,6 @@ public class PhongMayActivity extends AppCompatActivity implements iPhongMay {
         tvhuchuot = findViewById(R.id.tvhuchuot_ctp);
         tvbtchuot = findViewById(R.id.tvbinhthuongchuot_ctp);
 
-
-        tvTitleMayTinh = findViewById(R.id.tvtitlemaytinh_ctp);
-        tvTitleTBKhac = findViewById(R.id.tvtitlethietbikhac_ctp);
 
         //SETUP PROGRESS BAR
         lnlpro.setVisibility(View.VISIBLE);

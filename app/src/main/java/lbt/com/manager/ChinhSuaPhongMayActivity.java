@@ -68,6 +68,8 @@ public class ChinhSuaPhongMayActivity extends AppCompatActivity implements iPhon
     Button btnDel, btnHuy;
 
 
+    boolean isCapNhat = false;
+
     private SpeedDialView mSpeedDialView;
 
     @Override
@@ -80,7 +82,6 @@ public class ChinhSuaPhongMayActivity extends AppCompatActivity implements iPhon
 
         initSpeedDial(savedInstanceState == null);
 
-        capnhatMayTinh(false);
     }
 
     @Override
@@ -148,7 +149,8 @@ public class ChinhSuaPhongMayActivity extends AppCompatActivity implements iPhon
                         mSpeedDialView.close();
                         return true;
                     case R.id.fab_UpdateMayTinh:
-                        capnhatMayTinh(true);
+                        isCapNhat = true;
+                        capnhatMayTinh();
                         mSpeedDialView.close();
                         return true; // closes without animation (same as mSpeedDialView.close(false); return false;)
                     default:
@@ -198,9 +200,13 @@ public class ChinhSuaPhongMayActivity extends AppCompatActivity implements iPhon
                                         if(i.isChecked())
                                             listMayDelete.add(i.getMaytinh());
                                     }
-                                    mcapnhat.delMayTinh(listMayDelete,mObjPhong.getMaphong(),mNguoiDung);
-                                    WaitDialog.show(ChinhSuaPhongMayActivity.this,getText(R.string.loading).toString());
-                                    dialog.dismiss();
+                                    if(listMayDelete.size()>0) {
+                                        mcapnhat.delMayTinh(listMayDelete, mObjPhong.getMaphong(), mNguoiDung);
+                                        WaitDialog.show(ChinhSuaPhongMayActivity.this, getText(R.string.loading).toString());
+                                        dialog.dismiss();
+                                    }else {
+                                        Toast.makeText(ChinhSuaPhongMayActivity.this, getText(R.string.vuilongchonmayxoa), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }, getText(R.string.huy).toString(), new DialogInterface.OnClickListener() {
                                 @Override
@@ -248,7 +254,7 @@ public class ChinhSuaPhongMayActivity extends AppCompatActivity implements iPhon
                 });
     }
 
-    private void capnhatMayTinh(final boolean isCapNhat){
+    private void capnhatMayTinh(){
         if(adapter != null){
             adapter.setOnClickListener(new aRclvDanhSachMay_Add.OnItemClickListener() {
                 @Override
@@ -263,6 +269,7 @@ public class ChinhSuaPhongMayActivity extends AppCompatActivity implements iPhon
                                  new InputDialogOkButtonClickListener() {
                                      @Override
                                      public void onClick(Dialog dialog, String inputText) {
+                                         isCapNhat = false;
                                          if(!inputText.matches("")){
                                              mcapnhat.capnhatTenMay(adapter.getItem(pos).getMaytinh(),inputText,mObjPhong.getMaphong());
                                              WaitDialog.show(ChinhSuaPhongMayActivity.this,getText(R.string.loading).toString());
@@ -277,6 +284,7 @@ public class ChinhSuaPhongMayActivity extends AppCompatActivity implements iPhon
                                      @Override
                                      public void onClick(DialogInterface dialog, int which) {
                                          dialog.dismiss();
+                                         isCapNhat = false;
                                      }
                                  });
                      }

@@ -90,15 +90,16 @@
     <string name="guibaocaothanhcong">Gửi báo cáo thành công, Cảm ơn bạn!</string>
     <string name="guibaocaokhongthanhcong">Gửi báo cáo không thành công!</string>
 
-    <string name="them" >Thêm</string>
-    <string name="giam" >Giảm</string>
-    <string name="thietbi" >Thiết bị</string>
-    <string name="capnhat" >Cập nhật</string>
+    <string name="them">Thêm</string>
+    <string name="giam">Giảm</string>
+    <string name="thietbi">Thiết bị</string>
+    <string name="capnhat">Cập nhật</string>
 
     <string name="chitiet">Chi tiết</string>
     <string name="maytinh">máy tính</string>
     <string name="maytinhctp">Máy tính</string>
     <string name="thietbikhac">thiết bị khác</string>
+    <string name="thietbikhacls">Thiết bị khác</string>
     <string name="ban">Bàn</string>
     <string name="ghe">Ghế</string>
     <string name="den">Đèn</string>
@@ -121,6 +122,9 @@
     <string name="tongmay">Tổng máy</string>
 
     <string name="soluong">Số lượng</string>
+
+    <string name="lichsucapnhat">Lịch sử cập nhật</string>
+    <string name="lichsusuachua">Lịch sử sửa chữa</string>
 
     <string name="baocaothanhcong">Báo cáo thành công</string>
     <string name="giatrikhonghople">Giá trị không hợp lệ</string>
@@ -146,5 +150,8 @@
     <string name="tenmaykhonghople">Tên máy không hợp lệ!</string>
     <string name="capnhattenmaytinh">Cập nhật tên máy</string>
     <string name="capnhattencho">Cập nhật </string>
+    <string name="motsothietbi1">Một số thiết bị trong phòng máy</string>
+    <string name="motsothietbi2">của bạn hoạt động không ổn định!</string>
+    <string name="vuilongchonmayxoa">Vui lòng chọn máy để xóa!</string>
 
 </resources>

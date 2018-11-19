@@ -36,6 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import lbt.com.manager.Models.App.objThietBi;
 import lbt.com.manager.Models.Firebase.objNguoiDung;
 import lbt.com.manager.Models.Firebase.objPhongMay;
+import lbt.com.manager.Models.Firebase.objlichsu_thietbikhacs;
 import lbt.com.manager.Presenter.iDangNhap;
 import lbt.com.manager.Presenter.iTaiKhoan;
 import lbt.com.manager.Presenter.iThongBao;
@@ -274,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements iDangNhap, iTaiKh
     }
 
     @Override
-    public void pushthongbao(List<objThietBi> thietBi) {
+    public void pushthongbao(List<objThietBi> thietBi, objlichsu_thietbikhacs mThietBiKhac) {
         // Sets an ID for the notification, so it can be updated.
         //int notifyID = 1;
         imvNew.setVisibility(View.VISIBLE);
@@ -326,7 +327,6 @@ public class MainActivity extends AppCompatActivity implements iDangNhap, iTaiKh
             mNotificationManager.notify(notifyID , notification);
         }
     }
-
 
 
     @Override

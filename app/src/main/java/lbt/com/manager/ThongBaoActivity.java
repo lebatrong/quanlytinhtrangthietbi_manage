@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -21,6 +23,7 @@ import java.util.List;
 import lbt.com.manager.Models.App.objThietBi;
 import lbt.com.manager.Models.Firebase.objlichsu_maytinhs;
 import lbt.com.manager.Models.Firebase.objPhongMay;
+import lbt.com.manager.Models.Firebase.objlichsu_thietbikhacs;
 import lbt.com.manager.Presenter.iThongBao;
 import lbt.com.manager.Presenter.lThongBao;
 import lbt.com.manager.customAdapter.aRclvThongBao;
@@ -35,6 +38,8 @@ public class ThongBaoActivity extends AppCompatActivity implements iThongBao {
     List<objThietBi> mList;
     objPhongMay mPhongMay;
     LinearLayout lnlProgress,lnlRclvThongBao;
+    TextView tvThongBaoTBK;
+    CardView cvThongBaoTBK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,9 @@ public class ThongBaoActivity extends AppCompatActivity implements iThongBao {
         lnlProgress = findViewById(R.id.lnlProgess);
         lnlRclvThongBao = findViewById(R.id.lnlrclvThongBao);
 
+        tvThongBaoTBK = findViewById(R.id.tvthongbaotbk_thongbao);
+        cvThongBaoTBK = findViewById(R.id.cardViewTBK_thongbao);
+
         //CHƯA TẢI DỮ LIỆU XONG KHÔNG SHOW RA
         lnlProgress.setVisibility(View.VISIBLE);
         lnlRclvThongBao.setVisibility(View.GONE);
@@ -95,11 +103,31 @@ public class ThongBaoActivity extends AppCompatActivity implements iThongBao {
     }
 
     @Override
-    public void pushthongbao(List<objThietBi> thietBi) {
-
-//TẢI DỮ LIỆU XONG  SHOW RA
+    public void pushthongbao(List<objThietBi> thietBi, objlichsu_thietbikhacs mThietBiKhac) {
+        //TẢI DỮ LIỆU XONG  SHOW RA
         lnlRclvThongBao.setVisibility(View.VISIBLE);
         lnlProgress.setVisibility(View.GONE);
+        if(mThietBiKhac!=null) {
+            cvThongBaoTBK.setVisibility(View.VISIBLE);
+            //get my Room
+            SharedPreferences spf = getSharedPreferences("data", Context.MODE_PRIVATE);
+            Gson gson = new Gson();
+            objPhongMay phongMay = gson.fromJson(spf.getString("phongmay", null), objPhongMay.class);
+
+            tvThongBaoTBK.setText(getText(R.string.motsothietbi1).toString() +
+                    " " + phongMay.getTenphong() +
+                    " ( " + phongMay.getMaphong() +
+                    " ) " + getText(R.string.motsothietbi2).toString());
+
+            tvThongBaoTBK.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(ThongBaoActivity.this, PhongMayActivity.class));
+                }
+            });
+
+        }else
+            cvThongBaoTBK.setVisibility(View.GONE);
 
         LinearLayoutManager manager = new LinearLayoutManager(ThongBaoActivity.this,LinearLayoutManager.VERTICAL,false);
         rclvthongbao.hasFixedSize();
@@ -116,7 +144,6 @@ public class ThongBaoActivity extends AppCompatActivity implements iThongBao {
                 showtinhtrangthietbi(mList.get(pos).getLichsusuachua(),mList.get(pos).getMathietbi());
             }
         });
-
     }
 
 

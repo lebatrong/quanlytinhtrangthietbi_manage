@@ -5,18 +5,19 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        tools:replace="android:icon"
         android:allowBackup="true"
         android:configChanges="locale|orientation"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".SplatScreenActivity"
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
+        <activity
+            android:name=".SplatScreenActivity"
             android:screenOrientation="userPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,30 +25,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScannerQRCode"
+        <activity
+            android:name=".ScannerQRCode"
             android:screenOrientation="userPortrait" />
-        <activity android:name=".MainActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".PhongMayActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".TaiKhoanActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".SettingActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".TinhTrangThietBiActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".ThongBaoActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".LichSuActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".DanhSachMayTinhActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".ChinhSuaPhongMayActivity"
-            android:screenOrientation="userPortrait"/>
-        <activity android:name=".ChinhSuaThietBiKhacActivity"
-            android:screenOrientation="userPortrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".PhongMayActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".TaiKhoanActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".SettingActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".TinhTrangThietBiActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".ThongBaoActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".LichSuActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".DanhSachMayTinhActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".ChinhSuaPhongMayActivity"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".ChinhSuaThietBiKhacActivity"
+            android:screenOrientation="userPortrait" />
+        <activity android:name=".LichSuSuaChuaMayTinhActivity" />
+        <activity android:name=".LichSuSuaChuaTBKActivity" />
+        <activity android:name=".LichSuCapNhatMayTinhActivity" />
+        <activity android:name=".LichSuCapNhatTBKActivity"></activity>
     </application>
 
 </manifest>
